@@ -61,8 +61,8 @@ export default function Chat() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4 bg-white rounded-lg shadow-md">
-      <div className="h-96 overflow-y-auto border-b border-gray-200 p-4 space-y-4">
+    <div className="w-full max-w-2xl mx-auto p-2 sm:p-4 bg-white rounded-lg shadow-md h-[calc(100vh-2rem)] sm:h-auto flex flex-col">
+      <div className="flex-1 sm:h-96 overflow-y-auto border-b border-gray-200 p-2 sm:p-4 space-y-3 sm:space-y-4">
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -71,7 +71,7 @@ export default function Chat() {
             }`}
           >
             <div
-              className={`px-4 py-2 rounded-lg ${
+              className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg max-w-[85%] sm:max-w-[75%] break-words ${
                 msg.role === "user"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 text-black"
@@ -83,24 +83,24 @@ export default function Chat() {
         ))}
         {loading && (
           <div className="flex justify-start">
-            <div className="px-4 py-2 rounded-lg bg-gray-200 text-black">
+            <div className="px-3 py-2 sm:px-4 sm:py-2 rounded-lg bg-gray-200 text-black">
               Mini-box kuca...
             </div>
           </div>
         )}
       </div>
-      <form onSubmit={handleSubmit} className="flex p-4">
+      <form onSubmit={handleSubmit} className="flex p-2 sm:p-4 gap-2">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="flex-grow p-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-grow p-2 sm:p-3 border border-gray-300 rounded-lg sm:rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
           placeholder="Unesite vašu poruku..."
           disabled={loading}
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-3 py-2 sm:px-4 sm:py-2 bg-blue-500 text-white rounded-lg sm:rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap text-sm sm:text-base"
           disabled={loading}
         >
           Pošalji
