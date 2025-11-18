@@ -61,8 +61,8 @@ export default function Chat() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-2 sm:p-4 bg-white rounded-lg shadow-md h-[calc(100vh-2rem)] sm:h-auto flex flex-col">
-      <div className="flex-1 sm:h-96 overflow-y-auto border-b border-gray-200 p-2 sm:p-4 space-y-3 sm:space-y-4">
+    <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg h-[calc(100vh-8rem)] sm:h-[600px] flex flex-col">
+      <div className="flex-1 overflow-y-auto border-b border-gray-200 p-3 sm:p-4 space-y-3">
         {messages.map((msg, index) => (
           <div
             key={index}
@@ -71,10 +71,10 @@ export default function Chat() {
             }`}
           >
             <div
-              className={`px-3 py-2 sm:px-4 sm:py-2 rounded-lg max-w-[85%] sm:max-w-[75%] break-words ${
+              className={`px-3 py-2.5 sm:px-4 sm:py-2 rounded-2xl max-w-[80%] sm:max-w-[70%] text-sm sm:text-base break-words shadow-sm ${
                 msg.role === "user"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-black"
+                  ? "bg-blue-500 text-white rounded-br-sm"
+                  : "bg-gray-100 text-gray-800 rounded-bl-sm"
               }`}
             >
               {msg.content}
@@ -83,24 +83,27 @@ export default function Chat() {
         ))}
         {loading && (
           <div className="flex justify-start">
-            <div className="px-3 py-2 sm:px-4 sm:py-2 rounded-lg bg-gray-200 text-black">
+            <div className="px-3 py-2.5 sm:px-4 sm:py-2 rounded-2xl rounded-bl-sm bg-gray-100 text-gray-800 text-sm sm:text-base shadow-sm">
               Mini-box kuca...
             </div>
           </div>
         )}
       </div>
-      <form onSubmit={handleSubmit} className="flex p-2 sm:p-4 gap-2">
+      <form
+        onSubmit={handleSubmit}
+        className="flex p-3 sm:p-4 gap-2 bg-gray-50"
+      >
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="flex-grow p-2 sm:p-3 border border-gray-300 rounded-lg sm:rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
-          placeholder="Unesite vašu poruku..."
+          className="flex-grow px-4 py-2.5 sm:py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
+          placeholder="Unesite poruku..."
           disabled={loading}
         />
         <button
           type="submit"
-          className="px-3 py-2 sm:px-4 sm:py-2 bg-blue-500 text-white rounded-lg sm:rounded-r-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap text-sm sm:text-base"
+          className="px-5 py-2.5 sm:px-6 sm:py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm sm:text-base font-medium shadow-sm"
           disabled={loading}
         >
           Pošalji
