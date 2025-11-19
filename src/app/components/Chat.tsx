@@ -43,8 +43,8 @@ export default function Chat() {
       const data = await response.json();
       const assistantMessage: Message = {
         role: "assistant",
-        content: data.output,
-      }; // ✅ use output
+        content: data.output || data.error || "Došlo je do greške.",
+      };
       setMessages((prevMessages) => [...prevMessages, assistantMessage]);
     } catch (error) {
       console.error("Failed to send message:", error);

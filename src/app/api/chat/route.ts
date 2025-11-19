@@ -4,10 +4,22 @@ export async function POST(req: Request) {
   try {
     const { userMessage } = await req.json();
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+    // Check if API key exists
+    if (!process.env.GEMINI_API_KEY) {
+      console.error("[CHAT_ERROR] GEMINI_API_KEY is not set");
+      return new Response(
+        JSON.stringify({
+          error: "API key not configured",
+          details: "Please set GEMINI_API_KEY in .env.local file",
+        }),
+        { status: 500 }
+      );
+    }
+
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
+      model: "gemini-2.0-flash-exp",
     });
 
     const systemPrompt = `
@@ -38,12 +50,31 @@ Budi stručan, jasan i ljubazan.
     }
 
     return new Response(JSON.stringify({ output: text }), { status: 200 });
-  } catch (err: any) {
+  } catch (err) {
     console.error("[CHAT_ERROR]", err);
+    const errorMessage = err instanceof Error ? err.message : "Unknown error";
+
+    // Check if it's a rate limit error
+    if (
+      errorMessage.includes("429") ||
+      errorMessage.includes("Too Many Requests")
+    ) {
+      return new Response(
+        JSON.stringify({
+          error: "Rate limit exceeded",
+          output:
+            "Izvinite, API je dostigao limit zahteva. Molimo pokušajte ponovo za nekoliko minuta. 🕐",
+        }),
+        { status: 429 }
+      );
+    }
+
     return new Response(
       JSON.stringify({
         error: "Chat API error",
-        details: err.message,
+        details: errorMessage,
+        output:
+          "Došlo je do greške u komunikaciji sa AI modelom (Verovatno zbog besplatnog plana). Molimo pokušajte ponovo. 🔄",
       }),
       { status: 500 }
     );
