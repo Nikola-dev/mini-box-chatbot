@@ -52,7 +52,8 @@ export default function Chat() {
         ...prevMessages,
         {
           role: "assistant",
-          content: "Došlo je do greške. Molimo pokušajte ponovo kasnije.",
+          content:
+            "Došlo je do greške. (Verovatno smo dostigli dnevni limit API-ja). Molimo pokušajte kasnije.",
         },
       ]);
     } finally {
